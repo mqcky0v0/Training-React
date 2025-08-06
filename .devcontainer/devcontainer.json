@@ -1,6 +1,6 @@
 // https://aka.ms/devcontainer.json
 {
-  "name": "sample-ui-react",
+  "name": "react-training",
   "dockerComposeFile": ["./compose.yml"],
   "service": "workspace",
   "shutdownAction": "stopCompose",
