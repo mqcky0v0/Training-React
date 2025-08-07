@@ -70,3 +70,16 @@ export type LoginRequest = {
   loginId: string;
   password: string;
 };
+
+export type User = {
+  userId: string;
+  name: string;
+  email: string;
+  statusType: AuthorityType;
+};
+
+export const AuthorityType = {
+  ADMIN: "管理者",
+  USER: "ユーザー",
+};
+export type AuthorityType = (typeof AuthorityType)[keyof typeof AuthorityType];

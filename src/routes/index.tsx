@@ -1,6 +1,7 @@
 import { Layout } from "@/components/layout";
 import { AssetHome } from "@/features/asset/components";
 import { Dashboard } from "@/features/dashboard/components";
+import { Smaple1Home } from "@/features/sample1/components/Smaple1Home";
 import { TradeHome } from "@/features/trade/components";
 import { Navigate, RouteObject, useRoutes } from "react-router-dom";
 
@@ -12,6 +13,7 @@ const routes: RouteObject[] = [
       { path: "dashboard", element: <Dashboard /> },
       { path: "trade", element: <TradeHome /> },
       { path: "asset", element: <AssetHome /> },
+      { path: "sample", element: <Smaple1Home /> },
       { path: "", element: <Navigate to="dashboard" /> },
       { path: "*", element: <Navigate to="dashboard" /> },
     ],

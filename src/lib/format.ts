@@ -7,3 +7,6 @@ export const formatAmount = (v: string | number): string => {
     return "";
   }
 };
+export const escapeRegExp = (str: string) => {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+};
