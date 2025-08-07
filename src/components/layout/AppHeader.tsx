@@ -4,7 +4,6 @@ import { ActorRoleType } from "@/types";
 import { actorRoleTypeStr } from "@/types/i18n";
 import {
   Banknote,
-  CandlestickChart,
   EllipsisVertical,
   House,
   KeySquare,
@@ -47,7 +46,7 @@ export const AppHeader = () => {
               <span className="ml-2">Home</span>
             </div>
           </NavLink>
-          <NavLink
+          {/* <NavLink
             to="trade"
             className={({ isActive }) =>
               isActive
@@ -59,8 +58,8 @@ export const AppHeader = () => {
               <CandlestickChart size="18" />
               <span className="ml-2">Trade</span>
             </div>
-          </NavLink>
-          <NavLink
+          </NavLink> */}
+          {/* <NavLink
             to="asset"
             className={({ isActive }) =>
               isActive
@@ -72,7 +71,7 @@ export const AppHeader = () => {
               <Banknote size="18" />
               <span className="ml-2">Asset</span>
             </div>
-          </NavLink>
+          </NavLink> */}
           <NavLink
             to="sample"
             className={({ isActive }) =>
