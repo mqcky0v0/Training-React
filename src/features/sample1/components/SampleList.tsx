@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import { FormInput } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -13,157 +14,20 @@ import {
 } from "@/components/ui/table";
 import { escapeRegExp } from "@/lib/format";
 import { cn } from "@/lib/utils";
-import { AuthorityType, User } from "@/types";
+import { User } from "@/types";
+import { authorityTypeStr } from "@/types/i18n";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
-// DBからの取得データを想定
-const testUsers: User[] = [
-  {
-    userId: "yamada_taro",
-    name: "山田 太郎",
-    email: "yamada.taro@example.com",
-    statusType: AuthorityType.ADMIN,
-  },
-  {
-    userId: "suzuki_hanako",
-    name: "鈴木 花子",
-    email: "suzuki.hanako@example.com",
-    statusType: AuthorityType.USER,
-  },
-  {
-    userId: "sato_ichiro",
-    name: "佐藤 一郎",
-    email: "sato.ichiro@example.com",
-    statusType: AuthorityType.USER,
-  },
-  {
-    userId: "tanaka_mina",
-    name: "田中 美奈",
-    email: "tanaka.mina@example.com",
-    statusType: AuthorityType.ADMIN,
-  },
-  {
-    userId: "kato_jun",
-    name: "加藤 純",
-    email: "kato.jun@example.com",
-    statusType: AuthorityType.USER,
-  },
-  {
-    userId: "shimizu_hiroko",
-    name: "清水 弘子",
-    email: "shimizu.hiroko@example.com",
-    statusType: AuthorityType.ADMIN,
-  },
-  {
-    userId: "takahashi_ryota",
-    name: "高橋 涼太",
-    email: "takahashi.ryota@example.com",
-    statusType: AuthorityType.USER,
-  },
-  {
-    userId: "nakagawa_emiko",
-    name: "中川 恵美子",
-    email: "nakagawa.emiko@example.com",
-    statusType: AuthorityType.USER,
-  },
-  {
-    userId: "fujimoto_kenta",
-    name: "藤本 健太",
-    email: "fujimoto.kenta@example.com",
-    statusType: AuthorityType.ADMIN,
-  },
-  {
-    userId: "hirata_sakura",
-    name: "平田 桜",
-    email: "hirata.sakura@example.com",
-    statusType: AuthorityType.USER,
-  },
-  {
-    userId: "oda_shunsuke",
-    name: "織田 俊介",
-    email: "oda.shunsuke@example.com",
-    statusType: AuthorityType.USER,
-  },
-  {
-    userId: "yamamoto_naomi",
-    name: "山本 直美",
-    email: "yamamoto.naomi@example.com",
-    statusType: AuthorityType.ADMIN,
-  },
-  {
-    userId: "matsuda_kouichi",
-    name: "松田 公一",
-    email: "matsuda.kouichi@example.com",
-    statusType: AuthorityType.USER,
-  },
-  {
-    userId: "hosokawa_rika",
-    name: "細川 理香",
-    email: "hosokawa.rika@example.com",
-    statusType: AuthorityType.ADMIN,
-  },
-  {
-    userId: "nakamura_hiroshi",
-    name: "中村 博",
-    email: "nakamura.hiroshi@example.com",
-    statusType: AuthorityType.USER,
-  },
-  {
-    userId: "uchida_megumi",
-    name: "内田 恵",
-    email: "uchida.megumi@example.com",
-    statusType: AuthorityType.USER,
-  },
-  {
-    userId: "sasaki_toshio",
-    name: "佐々木 敏夫",
-    email: "sasaki.toshio@example.com",
-    statusType: AuthorityType.ADMIN,
-  },
-  {
-    userId: "kawasaki_akiko",
-    name: "川崎 明子",
-    email: "kawasaki.akiko@example.com",
-    statusType: AuthorityType.USER,
-  },
-  {
-    userId: "ishikawa_yuuta",
-    name: "石川 優太",
-    email: "ishikawa.yuuta@example.com",
-    statusType: AuthorityType.ADMIN,
-  },
-  {
-    userId: "murakami_mina",
-    name: "村上 美奈",
-    email: "murakami.mina@example.com",
-    statusType: AuthorityType.USER,
-  },
-  {
-    userId: "kitagawa_haruto",
-    name: "北川 晴翔",
-    email: "kitagawa.haruto@example.com",
-    statusType: AuthorityType.USER,
-  },
-  {
-    userId: "hayashi_chihiro",
-    name: "林 千尋",
-    email: "hayashi.chihiro@example.com",
-    statusType: AuthorityType.ADMIN,
-  },
-  {
-    userId: "morita_masaru",
-    name: "森田 勝",
-    email: "morita.masaru@example.com",
-    statusType: AuthorityType.USER,
-  },
-];
+import { SampleUserDetail } from "./SampleUserDetail";
+import { testUsers } from "./testDate";
 
 export const SampleList = ({ className }: { className?: string }) => {
   const [users, setUsers] = useState<User[]>([]);
   const [filterUsers, setFilterUsers] = useState<User[]>([]);
+  const [openDialogUserDetail, setOpenDialogUserDetail] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<User>();
 
   const formSchema = z.object({
     keyword: z.string().max(30).trim(),
@@ -247,11 +111,19 @@ export const SampleList = ({ className }: { className?: string }) => {
             {filterUsers.length > 0 ? (
               filterUsers.map((user) => (
                 <TableRow key={user.userId}>
-                  <TableCell>{user.userId}</TableCell>
+                  <TableCell
+                    className="cursor-pointer text-blue-600 hover:text-blue-800 underline"
+                    onClick={() => {
+                      setSelectedUser(user);
+                      setOpenDialogUserDetail(true);
+                    }}
+                  >
+                    {user.userId}
+                  </TableCell>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell>
-                    <Badge>{user.statusType}</Badge>
+                    <Badge>{authorityTypeStr(user.statusType)}</Badge>
                   </TableCell>
                 </TableRow>
               ))
@@ -276,6 +148,15 @@ export const SampleList = ({ className }: { className?: string }) => {
           </TableFooter>
         </Table>
       </ScrollArea>
+      <Dialog
+        open={openDialogUserDetail}
+        onOpenChange={setOpenDialogUserDetail}
+      >
+        <DialogContent>
+          <DialogHeader>利用者詳細</DialogHeader>
+          {selectedUser && <SampleUserDetail user={selectedUser} />}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

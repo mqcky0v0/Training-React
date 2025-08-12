@@ -1,9 +1,9 @@
-import { useMessage } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { ActorRoleType } from "@/types";
 import { actorRoleTypeStr } from "@/types/i18n";
 import {
   Banknote,
+  Dumbbell,
   EllipsisVertical,
   House,
   KeySquare,
@@ -21,7 +21,6 @@ import {
 } from "../ui/dropdown-menu";
 
 export const AppHeader = () => {
-  const { notify } = useMessage();
   const navStyle = "flex items-center h-8 px-8 space-x-1";
   const user = { roleType: ActorRoleType.USER, name: "山田 太郎" };
   return (
@@ -83,6 +82,19 @@ export const AppHeader = () => {
             <div className="flex">
               <Banknote size="18" />
               <span className="ml-2">Sample</span>
+            </div>
+          </NavLink>
+          <NavLink
+            to="training"
+            className={({ isActive }) =>
+              isActive
+                ? cn(navStyle, "border-b-2 bg-slate-200 border-b-primary/80")
+                : navStyle
+            }
+          >
+            <div className="flex">
+              <Dumbbell size="18" />
+              <span className="ml-2">Training</span>
             </div>
           </NavLink>
         </>

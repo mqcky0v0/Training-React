@@ -76,6 +76,9 @@ export type User = {
   name: string;
   email: string;
   statusType: AuthorityType;
+  birthDay: Date;
+  profile: string;
+  description: string;
 };
 
 export const AuthorityType = {
