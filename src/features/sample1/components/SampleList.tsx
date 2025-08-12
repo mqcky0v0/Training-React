@@ -221,6 +221,7 @@ export const SampleList = ({ className }: { className?: string }) => {
         className
       )}
     >
+      <div className="font-bold text-2xl">利用者一覧</div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSearch)}>
           <FormInput

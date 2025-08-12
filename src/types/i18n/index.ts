@@ -1,4 +1,4 @@
-import { ActionStatusType, ActorRoleType } from "..";
+import { ActionStatusType, ActorRoleType, AuthorityType } from "..";
 
 export const actionStatusTypeStr = (v: ActionStatusType) => {
   switch (v) {
@@ -25,5 +25,14 @@ export const actorRoleTypeStr = (v: ActorRoleType) => {
       return "Staff";
     default:
       return "Anonymous";
+  }
+};
+
+export const authorityTypeStr = (v: AuthorityType) => {
+  switch (v) {
+    case AuthorityType.ADMIN:
+      return "管理者";
+    case AuthorityType.USER:
+      return "ユーザー";
   }
 };

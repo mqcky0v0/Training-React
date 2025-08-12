@@ -79,7 +79,7 @@ export type User = {
 };
 
 export const AuthorityType = {
-  ADMIN: "管理者",
-  USER: "ユーザー",
+  ADMIN: "ADMIN",
+  USER: "USER",
 };
 export type AuthorityType = (typeof AuthorityType)[keyof typeof AuthorityType];

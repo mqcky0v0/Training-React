@@ -23,7 +23,7 @@ export const Smaple1Home = () => {
           <SampleList />
         </TabsContent>
         <TabsContent value="sampleRegister">
-          <SmapleRegister />
+          <SmapleRegister setTabIndex={setTabIndex} />
         </TabsContent>
       </Tabs>
     </div>
